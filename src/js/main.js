@@ -6,6 +6,10 @@ import '../scss/styles.scss';
 
 dayjs.extend(dayOfYear);
 
+function zeroOut(date) {
+    return date.hour(0).minute(0);
+}
+
 function makeBibleGatewayLink(entry) {
     return `<a href="https://www.biblegateway.com/passage/?search=${encodeURI(entry)}&version=KJV" target="_blank" rel="noreferrer noopener">${entry}</a>`;
 }
@@ -43,19 +47,22 @@ function reset(type) {
             break;
     }
 
-    localStorage.setItem('startDate', newStartDate.format());
+    localStorage.setItem('startDate', zeroOut(newStartDate).format());
     refreshTable(newStartDate);
 }
 
+function resetHandler(e) {
+    reset(e.target.id);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    const resetHandler = (e) => reset(e.target.id);
     for (const id of ['resetJan1', 'resetNC', 'resetOC', 'resetWR', 'resetToday']) {
         document.getElementById(id).addEventListener('click', resetHandler);
     }
 
     let date = localStorage.getItem('startDate');
     if (date) {
-        refreshTable(dayjs(date));
+        refreshTable(zeroOut(dayjs(date)));
     } else {
         reset('resetNC');
     }
