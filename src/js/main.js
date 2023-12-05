@@ -45,6 +45,10 @@ function reset(type) {
             const adventIThisYear = today.month(11).date(25).day(0).subtract(3, 'weeks');
             newStartDate = today.isBefore(adventIThisYear) ? today.subtract(1, 'year').month(11).date(25).day(0).subtract(3, 'weeks') : adventIThisYear;
             break;
+        case 'resetWROC':
+            const adventIThisYearOC = today.month(0).date(7).day(0).subtract(3, 'weeks');
+            newStartDate = today.isBefore(adventIThisYearOC) ? today.subtract(1, 'year').month(0).date(7).day(0).subtract(3, 'weeks') : adventIThisYearOC;
+
     }
 
     localStorage.setItem('startDate', zeroOut(newStartDate).format());
@@ -56,7 +60,7 @@ function resetHandler(e) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    for (const id of ['resetJan1', 'resetNC', 'resetOC', 'resetWR', 'resetToday']) {
+    for (const id of ['resetJan1', 'resetNC', 'resetOC', 'resetWR', 'resetWROC', 'resetToday']) {
         document.getElementById(id).addEventListener('click', resetHandler);
     }
 
